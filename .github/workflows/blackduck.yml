@@ -34,9 +34,13 @@ jobs:
           fail-on-severity: high
           base-ref: ${{steps.vars.outputs.base_ref}}
           head-ref: ${{steps.vars.outputs.head_ref}}
+        continue-on-error: true
       - name: comment if failed
         if: ${{ steps.dependency-review.outcome == 'failure' && github.event_name == 'pull_request'}}
         uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: ${{github.event.pull_request.number}}
           body: $GITHUB_STEP_SUMMARY
+      - name: Should mark as failed
+        if: ${{ steps.dependency-review.outcome == 'failure' }}
+        run: exit 1
