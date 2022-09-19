@@ -9,12 +9,7 @@
     "dist/**/*"
   ],
   "scripts": {
-    "build": "node -v && tsc -v && tsc --build",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "prepare": "npm run build",
-    "prepublishOnly": "tsc",
-    "test": "mocha --no-timeouts -t 40000 --colors -r ts-node/register -r dotenv/config tests/unit_tests/*.test.ts",
-    "integrationTest": "mocha --no-timeouts -t 40000 --colors -r ts-node/register -r dotenv/config tests/integration_tests/*.test.ts"
+  
   },
   "author": "Itay Levy",
   "license": "ISC",
