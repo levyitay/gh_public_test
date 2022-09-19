@@ -26,7 +26,11 @@ jobs:
         run: |
           echo ::set-output name=base_ref::${{ github.event.pull_request.base.ref || github.ref }}
           echo ::set-output name=head_ref::${{ github.event.pull_request.head.ref || github.ref }}
-
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
       - name: Dependency Review
         uses: actions/dependency-review-action@main
         id: dependency-review
@@ -45,7 +49,11 @@ jobs:
         run: |
           echo ::set-output name=base_ref::${{ github.event.pull_request.base.ref || github.ref }}
           echo ::set-output name=head_ref::${{ github.event.pull_request.head.ref || github.ref }}
-      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
       - name: Dependency Review
         uses: actions/dependency-review-action@main
         id: dependency-review
