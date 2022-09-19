@@ -32,6 +32,8 @@ jobs:
           node-version: 14
       - run: npm install --package-lock-only
       - run: |
+         git config --global user.name "Dependency Checker Job"
+         git config --global user.email "test-ci@is.com"
          git add package-lock.json
          git commit -m "adding package-lock"
 
