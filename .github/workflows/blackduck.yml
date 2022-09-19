@@ -16,29 +16,6 @@ env:
 permissions:
   contents: read
 jobs:
-  dependency-review:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Checkout Repository"
-        uses: actions/checkout@v3
-      - name: "get refs"
-        id: vars
-        run: |
-          echo ::set-output name=base_ref::${{ github.event.pull_request.base.ref || github.ref }}
-          echo ::set-output name=head_ref::${{ github.event.pull_request.head.ref || github.ref }}
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14
-      - run: npm install
-      - name: Dependency Review
-        uses: actions/dependency-review-action@main
-        id: dependency-review
-        with:
-          fail-on-severity: high
-          base-ref: ${{steps.vars.outputs.base_ref}}
-          head-ref: ${{steps.vars.outputs.head_ref}}
-
   dependency-report:
     runs-on: ubuntu-latest
     steps:
@@ -54,6 +31,7 @@ jobs:
         with:
           node-version: 14
       - run: npm install
+      - run: ls -l
       - name: Dependency Review
         uses: actions/dependency-review-action@main
         id: dependency-review
