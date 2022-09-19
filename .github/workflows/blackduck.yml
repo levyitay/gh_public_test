@@ -31,7 +31,10 @@ jobs:
         with:
           node-version: 14
       - run: npm install --package-lock-only
-      - run: ls -l
+      - run: |
+         git add package-lock.json
+         git commit -m "adding package-lock"
+
       - name: Dependency Review
         uses: actions/dependency-review-action@main
         id: dependency-review
@@ -39,5 +42,5 @@ jobs:
           fail-on-severity: low
           deny-licenses: LGPL-2.0, BSD-2-Clause, LGPL-3.0, MPL-2.0, AGPL-3.0, Unlicense, Apache-2.0, GPL-3.0, MIT, BSD-3-Clause, BSL-1.0, CC0-1.0, EPL-2.0, GPL-2.0, LGPL-2.1
           base-ref: ${{steps.vars.outputs.base_ref}}
-          head-ref: ${{steps.vars.outputs.head_ref}}
+          head-ref: HEAD
       
