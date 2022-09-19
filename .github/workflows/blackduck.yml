@@ -34,13 +34,24 @@ jobs:
           fail-on-severity: high
           base-ref: ${{steps.vars.outputs.base_ref}}
           head-ref: ${{steps.vars.outputs.head_ref}}
-        continue-on-error: true
-      - name: comment if failed
-        if: ${{ steps.dependency-review.outcome == 'failure' && github.event_name == 'pull_request'}}
-        uses: peter-evans/create-or-update-comment@v2
+
+  dependency-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v3
+      - name: "get refs"
+        id: vars
+        run: |
+          echo ::set-output name=base_ref::${{ github.event.pull_request.base.ref || github.ref }}
+          echo ::set-output name=head_ref::${{ github.event.pull_request.head.ref || github.ref }}
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v2
+        id: dependency-review
         with:
-          issue-number: ${{github.event.pull_request.number}}
-          body: $GITHUB_STEP_SUMMARY
-      - name: Should mark as failed
-        if: ${{ steps.dependency-review.outcome == 'failure' }}
-        run: exit 1
+          fail-on-severity: low
+          deny-licenses: LGPL-2.0, BSD-2-Clause, LGPL-3.0, MPL-2.0, AGPL-3.0, Unlicense, Apache-2.0, GPL-3.0, MIT, BSD-3-Clause, BSL-1.0, CC0-1.0, EPL-2.0, GPL-2.0, LGPL-2.1
+          base-ref: ${{steps.vars.outputs.base_ref}}
+          head-ref: ${{steps.vars.outputs.head_ref}}
+      
