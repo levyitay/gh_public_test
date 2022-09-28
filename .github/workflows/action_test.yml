@@ -1,0 +1,28 @@
+name: Action-Test
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "package.json"
+    tags-ignore:
+      - "**"
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+ 
+permissions:
+  contents: read
+jobs:
+  dependency-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v3
+      - name: "get refs"
+        id: vars
+        run: |
+          echo ${{secrets.MY_SECRET}}
+      
